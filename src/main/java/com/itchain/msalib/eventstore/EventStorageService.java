@@ -5,6 +5,8 @@ import com.itchain.msalib.common.EventRepository;
 import com.itchain.msalib.eventstore.domain.EntityWithIdAndEventList;
 import com.itchain.msalib.eventstore.domain.Store;
 import com.itchain.msalib.eventstore.exception.EventIDEmptyException;
+import com.itchain.msalib.pubsub.rabbitmq.BroadcastMessageProducer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,9 +14,12 @@ import java.util.List;
 @Component
 public class EventStorageService implements EventRepository {
     private Store store;
+    private BroadcastMessageProducer messageProducer;
 
-    public EventStorageService(Store store) {
+    @Autowired
+    public EventStorageService(Store store, BroadcastMessageProducer messageProducer) {
         this.store = store;
+        this.messageProducer = messageProducer;
     }
 
     @Override
@@ -24,6 +29,8 @@ public class EventStorageService implements EventRepository {
         }
 
         store.save(event.getID(), event);
+
+        messageProducer.publishEvent(event);
     }
 
     private boolean isEventIDEmpty(Event event) {

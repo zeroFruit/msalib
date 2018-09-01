@@ -1,5 +1,6 @@
 package com.itchain.msalib.eventstore;
 
+import com.itchain.msalib.MspLibApplication;
 import com.itchain.msalib.common.EventRepository;
 import com.itchain.msalib.eventstore.domain.MongoClient;
 import com.itchain.msalib.eventstore.exception.EventIDEmptyException;
@@ -10,14 +11,17 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest(classes=MspLibApplication.class)
 @TestPropertySource(locations = "classpath:test.properties")
 public class EventStorageServiceTest {
     @Autowired
+    @Qualifier("mongoClient")
     private MongoClient client;
     @Autowired
     @Qualifier("eventStorageService")

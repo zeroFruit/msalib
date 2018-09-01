@@ -1,22 +1,19 @@
-package com.itchain.msalib.eventstore;
+package com.itchain.msalib.pubsub.rabbitmq.sample;
 
 import com.itchain.msalib.common.Event;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
 @NoArgsConstructor
+@Setter
 @RequiredArgsConstructor
+@ToString
 public class SampleEvent implements Event, Serializable {
     @NonNull
     private String id;
-
     @Override
     public String getID() {
-        return id;
+        return this.id;
     }
 }

@@ -5,3 +5,9 @@ services:
     image: mongo:latest
     ports:
       - 27017:27017
+
+  rabbitmq:
+    image: rabbitmq:3.5.3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
